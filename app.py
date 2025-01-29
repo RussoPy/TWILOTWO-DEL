@@ -36,8 +36,12 @@ def get_db():
     finally:
         db.close()
 
+@app.get("/")
+async def root():
+    return {"message": "Hello, Render!"}
+
 # Routes
-@app.post("/", response_model=ItemCreate)
+@app.post("/items/", response_model=ItemCreate)
 def create_item(item: ItemCreate, db: SessionLocal = next(get_db())):
     db_item = Item(name=item.name, description=item.description)
     db.add(db_item)
